@@ -46,6 +46,13 @@ function setListeners() {
 function sort() {
     for(let item of document.querySelectorAll('[data-attr]')) {
         item.onclick = function(event) {
+            
+            for(let i of document.querySelectorAll('table thead th i')) {
+                i.parentNode.classList.remove('bg-warning');
+                i.className = '';
+            }
+
+            event.currentTarget.classList.add('bg-warning');
             let key = event.currentTarget.getAttribute('data-attr');
             let isSorted = event.currentTarget.getAttribute('data-sorted');
             let sortedCountries = countries.sort(function(a, b) {
@@ -57,8 +64,10 @@ function sort() {
 
             if(isSorted) {
                 event.currentTarget.removeAttribute('data-sorted');
+                event.currentTarget.lastChild.className = 'fa fa-arrow-down';
             } else {
                 event.currentTarget.setAttribute('data-sorted', '+');
+                event.currentTarget.lastChild.className = 'fa fa-arrow-up';
             }
             renderCountries(sortedCountries);
         }
@@ -92,7 +101,6 @@ document.getElementById('search').onkeyup = function(e) {
             || region.includes(searchValue);
     })
     renderCountries(filteredCountries);
-    // document.querySelector('.countries-select').value = '';
 }
 
 
